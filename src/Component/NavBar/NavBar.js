@@ -1,0 +1,135 @@
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import Offcanvas from "react-bootstrap/Offcanvas";
+import "./NavBar.css";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+ 
+  import { onAuthStateChanged, signOut } from 'firebase/auth'
+import { auth } from '../../InstanceAxios/FireBase/firebase'
+ function NavScrollExample() {
+  useEffect(()=>{
+    onAuthStateChanged(auth, (user) => {
+        if (user) { 
+          const uid = user.uid; 
+          console.log("uid", uid)
+        } else { 
+          console.log("user is logged out")
+        }
+      });
+     
+}, []);
+const navigate = useNavigate();
+ 
+const handleLogout = () => {               
+    signOut(auth).then(() => {
+    // Sign-out successful.
+        navigate("/login");
+        console.log("Signed out successfully")
+    }).catch((error) => {
+    // An error happened.
+    console.log(error);
+    });
+}
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  return (
+    <>
+      <Navbar
+        bg="light"
+        style={{ position: "fixed", top: 0, zIndex: 9 }}
+        className="NavEditting mb-5"
+      >
+        <Container fluid>
+          <Navbar.Brand as={Link} onClick={handleShow}>
+            Mustafa Ali
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="navbarScroll" />
+          <Navbar.Collapse id="navbarScroll">
+            <Nav
+              className="me-auto my-2 my-lg-0"
+              style={{ maxHeight: "100px" }}
+              navbarScroll
+            >
+              <Nav.Link>
+                <Link to={"/"}>Home</Link>
+              </Nav.Link>
+              <Nav.Link>
+                <Link to={"/skills"}>Skills</Link>
+              </Nav.Link>
+              <NavDropdown as={Link} title="Projects" id="navbarScrollingDropdown">
+                <NavDropdown.Item>
+                  <Link to={"/articles"}>Articls</Link>
+                </NavDropdown.Item>
+                <NavDropdown.Item>
+                  <Link to={"/movies"}>Movies</Link>
+                </NavDropdown.Item>
+                <NavDropdown.Item>
+                  <Link to={"/product"}>Products</Link>
+                </NavDropdown.Item>
+
+                <NavDropdown.Divider />
+              </NavDropdown>
+              <Nav.Link>
+                <Link to={"/favorite"}>Favorites</Link>
+              </Nav.Link>
+            </Nav>
+            <Form className="d-flex">
+              <Form.Control
+                type="search"
+                placeholder="Search"
+                className="me-2"
+                aria-label="Search"
+              />
+              <Button variant="outline-success">Search</Button>
+              {/* <Button variant="outline-success" onClick={handleLogout}>LogOut</Button> */}
+            </Form>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+
+      <Offcanvas
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        scroll={true}
+      >
+        <Offcanvas.Header
+          style={{ backgroundColor: "green", color: "peachpuff " }}
+          closeButton
+        >
+          <Offcanvas.Title>Mustafa Ali Rashwan</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body> 
+           <div 
+          style={{
+            width: '100%', 
+            
+            }}> 
+
+            <img
+              style={{
+                borderRadius: "50px",
+                width: "100px",
+                height: "100px", 
+                margin:"10px",marginLeft:"30%",
+              }}
+              src="https://scontent.fcai21-3.fna.fbcdn.net/v/t39.30808-6/343225470_1202607090444872_6635587796798906215_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeEGnee1iONlGQrUQmkm-UcOHPd07uuhxpcc93Tu66HGlzRD2SmC0-qybf-ih7xAb-FX98bJQ1vE-EixiFrYxt0Q&_nc_ohc=BWn7JWKjliAAX8rEZCE&_nc_ht=scontent.fcai21-3.fna&oh=00_AfCzbPQqRDkzjwM6zFYZOLkFo2MkdJvwiZCMlmpBLygY1w&oe=649499DC"
+              alt="Me Image" 
+            /> 
+            <h3>Front-End Developer </h3>
+   
+            </div>
+        </Offcanvas.Body>
+      </Offcanvas>
+    </>
+  );
+}
+
+export default NavScrollExample;
