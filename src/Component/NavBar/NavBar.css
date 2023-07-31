@@ -1,13 +1,17 @@
 .NavEditting{ 
     position: fixed;
-    top: 0 !important; 
-     
+    top: 0 !important;  
+     background: transparent !important;
      top: 0;
-     width: 100%;
+     width: 100%; 
      z-index: 8;
 }
 .navbar a:hover {
-    background: #ddd;
+    background: #555151;
+    color: black;
+  }
+  .navbar a:checked {
+    background: #f1eaea;
     color: black;
   }
    

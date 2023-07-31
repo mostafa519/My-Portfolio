@@ -1,37 +1,23 @@
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
-import Offcanvas from "react-bootstrap/Offcanvas";
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import Offcanvas from 'react-bootstrap/Offcanvas';
 import "./NavBar.css";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
- 
-  import { onAuthStateChanged, signOut } from 'firebase/auth'
+import { useState } from "react";
+  import {  signOut } from 'firebase/auth'
 import { auth } from '../../InstanceAxios/FireBase/firebase'
- function NavScrollExample() {
-  useEffect(()=>{
-    onAuthStateChanged(auth, (user) => {
-        if (user) { 
-          const uid = user.uid; 
-          console.log("uid", uid)
-        } else { 
-          console.log("user is logged out")
-        }
-      });
-     
-}, []);
-const navigate = useNavigate();
+function OffcanvasExample() {
+    const navigate = useNavigate();
  
 const handleLogout = () => {               
-    signOut(auth).then(() => {
-    // Sign-out successful.
+    signOut(auth).then(() => { 
         navigate("/login");
         console.log("Signed out successfully")
-    }).catch((error) => {
-    // An error happened.
+    }).catch((error) => { 
     console.log(error);
     });
 }
@@ -41,23 +27,33 @@ const handleLogout = () => {
   const handleShow = () => setShow(true);
   return (
     <>
-      <Navbar
+      {['xl'].map((expand) => (
+        <Navbar key={expand} expand={expand} className="bg-body-tertiary mb-3 " 
         bg="light"
         style={{ position: "fixed", top: 0, zIndex: 9 }}
-        className="NavEditting mb-5"
-      >
-        <Container fluid>
-          <Navbar.Brand as={Link} onClick={handleShow}>
+     >
+          <Container fluid className='NavEditting mb-5'> 
+            <Navbar.Brand as={Link} onClick={handleShow}>
             Mustafa Ali
           </Navbar.Brand>
-          <Navbar.Toggle aria-controls="navbarScroll" />
-          <Navbar.Collapse id="navbarScroll">
-            <Nav
-              className="me-auto my-2 my-lg-0"
-              style={{ maxHeight: "100px" }}
-              navbarScroll
+            <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`}><span>Menu</span></Navbar.Toggle> 
+            <Navbar.Offcanvas
+              id={`offcanvasNavbar-expand-${expand}`}
+              aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
+               
+              placement="end"
             >
-              <Nav.Link>
+              <Offcanvas.Header closeButton>
+                <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
+                  PortFolio
+                </Offcanvas.Title>
+              </Offcanvas.Header>
+              <Offcanvas.Body>
+                <Nav className="justify-content-end flex-grow-1 pe-3"
+                    
+                   style={{ maxHeight: "100px" }}
+                   navbarScroll>
+                <Nav.Link>
                 <Link to={"/"}>Home</Link>
               </Nav.Link>
               <Nav.Link>
@@ -79,22 +75,29 @@ const handleLogout = () => {
               <Nav.Link>
                 <Link to={"/favorite"}>Favorites</Link>
               </Nav.Link>
-            </Nav>
-            <Form className="d-flex">
-              <Form.Control
-                type="search"
-                placeholder="Search"
-                className="me-2"
-                aria-label="Search"
-              />
-              <Button variant="outline-success">Search</Button>
-              {/* <Button variant="outline-success" onClick={handleLogout}>LogOut</Button> */}
-            </Form>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-
-      <Offcanvas
+                </Nav>
+                <Form className="d-flex">
+                  <Form.Control
+                    type="search"
+                    placeholder="Search"
+                    className="me-2"
+                    aria-label="Search"
+                  />
+                  <Button variant="outline-success">Search</Button>
+                  <NavDropdown as={Button} title="Projects" id="navbarScrollingDropdown">
+                <NavDropdown.Item>
+                <Button variant="outline-success" onClick={handleLogout}>LogOut</Button>
+                </NavDropdown.Item>
+                
+ 
+              </NavDropdown>
+                </Form>
+              </Offcanvas.Body>
+            </Navbar.Offcanvas>
+          </Container>
+        </Navbar>
+      ))}
+       <Offcanvas
         show={show}
         onHide={handleClose}
         backdrop="static"
@@ -132,4 +135,4 @@ const handleLogout = () => {
   );
 }
 
-export default NavScrollExample;
+export default OffcanvasExample;

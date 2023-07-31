@@ -114,8 +114,48 @@ export default function Movies() {
           </button>
         </div>
       </div>
-      
-      <Row xs={1} md={3} className="g-4 m-5">
+      <Row xs={1} md={3} xl={5} className="g-4 m-5">
+        {movies.map((movie, index) => (
+          <Col key={index} >
+            <Card>
+              <Card.Img className="ImageEditts"   src={`https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`}/>
+            
+              <Link onClick={() => handleAddToFav(movie)}>
+                {isFav(movie) ? (
+                  <FaHeart
+                    style={{
+                      position: "absolute",
+                      top: "10px",
+                      left: "90%",
+                      color: "red",
+                      zIndex: 11,
+                    }}
+                    size={25}
+                  />
+                ) : (
+                  <FaHeart
+                    style={{
+                      position: "absolute",
+                      top: "10px",
+                      left: "90%",
+                      color: "white",
+                      zIndex: 11,
+                    }}
+                    size={25}
+                  />
+                )}
+              </Link>
+
+              <Card.Body>
+                <Card.Title>{movie.title} </Card.Title>
+                 {/* <Card.Text>{movie.overview}</Card.Text>  */}
+              </Card.Body>
+              
+            </Card>
+          </Col>
+        ))}
+      </Row>
+      {/* <Row  xs={5} md={5} className="g-4 m-5">
         {movies.map((movie) => (
           <Col key={movie.id}>
             <Card>
@@ -151,14 +191,29 @@ export default function Movies() {
 
               <Card.Body>
                 <Card.Title>{movie.title} </Card.Title>
-                {/* <Card.Text>{movie.overview}</Card.Text> */}
+                 <Card.Text>{movie.overview}</Card.Text> 
               </Card.Body>
             </Card>
           </Col>
         ))}
+      </Row> */}
+      <Row  className="g-4 m-5 pb-5">
+        <Col>
+          <Button
+            variant="secondary"
+            onClick={handlePrevPage}
+            disabled={currentPage === 1}
+          >
+            Previous Page
+          </Button>
+        </Col>
+        <Col className="text-end">
+          <Button variant="secondary" onClick={handleNextPage}>
+            Next Page
+          </Button>
+        </Col>
       </Row>
-
-      <Row>
+      {/* <Row>
         <Col ms={1}>
           <Button
             variant="primary"
@@ -178,7 +233,7 @@ export default function Movies() {
             Next
           </Button>
         </Col>
-      </Row>
+      </Row> */}
     </div>
   );
 }
