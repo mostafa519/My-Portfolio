@@ -126,7 +126,7 @@ export default function Movies() {
                     style={{
                       position: "absolute",
                       top: "10px",
-                      left: "90%",
+                      left: "85%",
                       color: "red",
                       zIndex: 11,
                     }}
@@ -137,7 +137,7 @@ export default function Movies() {
                     style={{
                       position: "absolute",
                       top: "10px",
-                      left: "90%",
+                      left: "85%",
                       color: "white",
                       zIndex: 11,
                     }}

@@ -32,7 +32,7 @@ console.log(products);
                     style={{
                       position: "absolute",
                       top: "10px",
-                      left: "90%",
+                      left: "80%",
                       color: "red",
                       zIndex: 10,
                     }}
